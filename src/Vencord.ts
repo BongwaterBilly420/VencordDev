@@ -27,10 +27,12 @@ export { PlainSettings, Settings };
 import "./utils/quickCss";
 import "./webpack/patchWebpack";
 
+import { relaunch } from "@utils/native";
+
 import { showNotification } from "./api/Notifications";
 import { PlainSettings, Settings } from "./api/settings";
-import { patches, PMLogger, startAllPlugins } from "./plugins";
-import { checkForUpdates, rebuild, update,UpdateLogger } from "./utils/updater";
+import { PMLogger, patches, startAllPlugins } from "./plugins";
+import { UpdateLogger, checkForUpdates, rebuild, update } from "./utils/updater";
 import { onceReady } from "./webpack";
 import { SettingsRouter } from "./webpack/common";
 
@@ -57,10 +59,7 @@ async function init() {
                         noPersist: true,
                         onClick() {
                             if (needsFullRestart) {
-                                if (IS_DISCORD_DESKTOP)
-                                    window.DiscordNative.app.relaunch();
-                                else
-                                    window.VencordDesktop.app.relaunch();
+                                relaunch();
                             }
                             else
                                 location.reload();
